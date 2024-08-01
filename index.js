@@ -14,18 +14,26 @@ function parseFunc(req) {
         })
 
         req.on('end', () => {
-            try {
-                resolve({ name: body.replace("productName=", "")})
-            } catch (err) {
-                reject(err);
+            if(body.includes("productName=")){
+                resolve({ name: body.replace("productName=", "") })
+            } else {
+                reject("Invalid data");
             }
         })
     })
 }
 
+/* MIDDLEWARE */
+server.prependListener('request', (req, res) => {
+    //executed before any other listener
+    console.log(`Incoming ${req.method} request for ${req.url}`);
+    req.message = "Message from Middleware";
+    req.error = "Error comming from the Middleware";
+})
+
+/* REQUESTS */
 server.on('request', (req, res) => {
-    console.log(req.method);
-    console.log(req.url);
+    console.log(req.message, "\n", req.error);
 
     if (req.url === '/') {
         res.setHeader("Content-Type", "text/html");
@@ -44,6 +52,9 @@ server.on('request', (req, res) => {
                     res.end(`Product created successfully \n
                         ${JSON.stringify(products)}`
                     );
+                }).catch(err => {
+                    res.statusCode = 400;
+                    res.end(err)
                 })
         } else if (req.method === 'GET') {
             res.setHeader("Content-Type", "application/json");
