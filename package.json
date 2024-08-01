@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,12 @@
   "bugs": {
     "url": "https://github.com/maria-roman-garcia/nodeJs_express/issues"
   },
-  "homepage": "https://github.com/maria-roman-garcia/nodeJs_express#readme"
+  "homepage": "https://github.com/maria-roman-garcia/nodeJs_express#readme",
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "eslint": "^9.8.0",
+    "nodemon": "^3.1.4"
+  }
 }
