@@ -1,13 +1,18 @@
 const express = require('express');
+const Product = require('../models/product');
 
 const router = express.Router();
 
-router.post("/add-product",(req, res, next)=>{
-    console.log("Body object:", req.body);
-    const product = req.body.product;
+router.post("/add-product", async (req, res, next)=>{
+    const product = new Product(req.body.name, req.body.price);
+   
+    try {
+        await product.save();
+    } catch(err) {
+        res.status(500).json({ message: "Something went wrong :("});
+    }
 
-    console.log('Admin router - Add product');
-    res.send('<h1>response from the route path /add-product</h1>');
+    res.status(200).json({message: "Product added successfully!"});
 });
 
 router.delete("/delete-product", (req, res, next) => {
